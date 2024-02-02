@@ -21,8 +21,8 @@ import {useAlertContext} from "../context/alertContext";
 
 const LandingSection = () => {
   const {isLoading, response, submit} = useSubmit();
-  const { onOpen } = useAlertContext();
-
+  const { onOpen, onClose } = useAlertContext();
+  
   const formik = useFormik({
     initialValues: {
       firstName: '',
@@ -41,6 +41,25 @@ const LandingSection = () => {
     }),
   });
   
+  useEffect(() => {
+    // Se há uma resposta (seja sucesso ou erro), dispara o alerta.
+    if (response !== null) {
+      // Dispara o alerta com o tipo e mensagem da resposta.
+      onOpen(response.type, response.message);
+
+      // Se a resposta for de sucesso, reset o formulário.
+      if (response.type === 'success') {
+        formik.resetForm();
+      }
+
+      // Fecha o alerta após 5 segundos.
+      setTimeout(() => {
+        onClose();
+      }, 2000);
+
+      
+    }
+  }, [response, onOpen, formik]);
 
   return (
     <FullScreenSection
@@ -95,14 +114,13 @@ const LandingSection = () => {
                 />
                 <FormErrorMessage>{formik.errors.comment}</FormErrorMessage>
               </FormControl>
-              <Button type="submit" colorScheme="purple" width="full">
+              <Button type="submit" colorScheme="purple" width="full" isLoading={isLoading} >
                 Submit
               </Button>
             </VStack>
           </form>
         </Box>
-      </VStack>
-    </FullScreenSection>
+      </VStack>    </FullScreenSection>
   );
 };
 
