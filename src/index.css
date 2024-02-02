@@ -15,3 +15,15 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* Adicionando estilos básicos para o select */
+select {
+  color: #000; /* Cor do texto */
+  background-color: #fff; /* Cor de fundo */
+}
+
+select option {
+  color: #000; /* Cor do texto das opções */
+  background-color: #fff; /* Cor de fundo das opções */
+}
+
